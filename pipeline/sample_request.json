@@ -1,0 +1,28 @@
+{
+  "dataframe_split": {
+    "columns": [
+      "Age", "Avg_BPM", "BMI", "BMI_calc", "Burns Calories (per 30 min)",
+      "Burns Calories (per 30 min)_bc", "Calories", "Calories_Burned", "Carbs",
+      "Daily meals frequency", "Experience_Level", "Fat_Percentage", "Fats",
+      "Height (m)", "Max_BPM", "Physical exercise", "Proteins", "Reps",
+      "Resting_BPM", "Session_Duration (hours)", "Sets", "Water_Intake (liters)",
+      "Weight (kg)", "Workout_Frequency (days/week)", "cal_balance", "cal_from_macros",
+      "cholesterol_mg", "cook_time_min", "expected_burn", "lean_mass_kg",
+      "pct_HRR", "pct_carbs", "pct_maxHR", "prep_time_min", "protein_per_kg",
+      "rating", "serving_size_g", "sodium_mg", "sugar_g"
+    ],
+    "data": [
+      [
+        34.91, 157.65, 24.87, 24.8704465782655, 342.58,
+        7.260425438142023e+19, 1806.0, 1080.9, 267.68,
+        2.99, 2.01, 26.800377179186803, 71.63,
+        1.62, 188.58, 0.01, 106.05, 20.91,
+        69.05, 1.0, 4.99, 1.5,
+        65.27, 3.99, 725.0999999999999, 2139.59,
+        285.05, 110.79, 685.16, 47.77739381514478,
+        0.7412365096628462, 0.5004323258194326, 0.8359847279669106, 16.24, 1.624789336601808,
+        1.31, 120.47, 1729.94, 31.77
+      ]
+    ]
+  }
+}

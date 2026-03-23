@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitea
+  labels:
+    app: gitea
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gitea
+  template:
+    metadata:
+      labels:
+        app: gitea
+    spec:
+      containers:
+      - name: gitea
+        image: gitea/gitea:1.22-rootless
+        ports:
+        - containerPort: 3000
+          name: http
+        - containerPort: 2222
+          name: ssh
+        env:
+        - name: GITEA__database__DB_TYPE
+          value: "sqlite3"
+        - name: GITEA__server__ROOT_URL
+          value: "http://localhost:30503/"
+        - name: GITEA__server__HTTP_PORT
+          value: "3000"
+        - name: GITEA__server__SSH_PORT
+          value: "2222"
+        - name: GITEA__server__SSH_LISTEN_PORT
+          value: "2222"
+        - name: GITEA__security__INSTALL_LOCK
+          value: "true"
+        - name: GITEA__service__DISABLE_REGISTRATION
+          value: "false"
+        - name: GITEA__repository__DEFAULT_BRANCH
+          value: "main"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        volumeMounts:
+        - name: gitea-data
+          mountPath: /var/lib/gitea
+        - name: gitea-config
+          mountPath: /etc/gitea
+        readinessProbe:
+          httpGet:
+            path: /api/healthz
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /api/healthz
+            port: 3000
+          initialDelaySeconds: 60
+          periodSeconds: 30
+      volumes:
+      - name: gitea-data
+        hostPath:
+          path: /mnt/data/gitea/data
+          type: DirectoryOrCreate
+      - name: gitea-config
+        hostPath:
+          path: /mnt/data/gitea/config
+          type: DirectoryOrCreate
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gitea-service
+  labels:
+    app: gitea
+spec:
+  type: NodePort
+  ports:
+  - port: 3000
+    targetPort: 3000
+    nodePort: 30503
+    name: http
+  - port: 2222
+    targetPort: 2222
+    nodePort: 30522
+    name: ssh
+  selector:
+    app: gitea
